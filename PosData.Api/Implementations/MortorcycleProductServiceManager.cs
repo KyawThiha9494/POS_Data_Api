@@ -3,22 +3,49 @@ using PosData.Api.Models;
 
 namespace PosData.Api.Implementations
 {
-    public class MortorcycleProductServiceManager : IProductService<Mortorcycle>
+    public class MortorcycleProductServiceManager : IProductService<IProduct>
     {
-        public List<Mortorcycle> GetAllProducts()
+        List<Brand> brandList = new List<Brand>() { 
+            new Brand(){ 
+                Name = "Honda",
+                Description = "Thai Brand"
+            },
+            new Brand()
+            {
+                Name = "Yamaha",
+                Description = "Japan"
+            },
+            new Brand()
+            {
+                Name = "Moto Guzzi",
+                Description = "Italian"
+            },
+            new Brand()
+            {
+                Name = "BMW R 18",
+                Description = "BMW"
+            }
+        };
+
+        public List<Brand> GetAllBrands()
         {
-            List<Mortorcycle> mortorcycleList = new List<Mortorcycle>() {
-                new Mortorcycle{
+            return brandList;
+        }
+
+        public List<IProduct> GetAllProducts()
+        {
+            List<IProduct> mortorcycleList = new List<IProduct>() {
+                new Motorcycle{
                     Name = "125",
                     Price= 4000000,
-                    Brand= "Honda",
+                    Brand= brandList[1],
                     Year = 2023
                 },
-                new Mortorcycle
+                new Motorcycle
                 {
                     Name = "Click",
                     Price = 5000000,
-                    Brand = "Honda",
+                    Brand = brandList[2],
                     Year = 2023
                 }
 
@@ -26,17 +53,17 @@ namespace PosData.Api.Implementations
             return mortorcycleList;
         }
 
-        public Mortorcycle GetProductById(int id)
+        public IProduct GetProductById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Mortorcycle GetProductByName(string name)
+        public IProduct GetProductByName(string name)
         {
             throw new NotImplementedException();
         }
 
-        public List<Mortorcycle> SearchProducts()
+        public List<IProduct> SearchProducts()
         {
             throw new NotImplementedException();
         }
