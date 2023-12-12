@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using PosData.Api.Enums;
 using PosData.Api.Implementations;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace PosData.Api.Controllers
 {
+    [Authorize(AuthenticationSchemes = "BasicAuthentication")]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductServiceController : ControllerBase
@@ -26,7 +28,7 @@ namespace PosData.Api.Controllers
         [Route("GetAllProducts")]
         public IActionResult GetAllProducts()
         {
-            List<IProduct> products = new List<IProduct>();
+            List<Motorcycle> products = new List<Motorcycle>();
             string productTypeName = _configuration["AppSettings:ModelType"];
             if (productTypeName.ToUpper() == ProductTypes.MOTORCYCLE.ToString())
             {
@@ -65,5 +67,26 @@ namespace PosData.Api.Controllers
             List<Brand> brands = _productServiceManager.GetAllBrands();
             return Ok(brands);
         }
+
+        [HttpPost]
+        [Route("CheckOutItems")]
+        public IActionResult CheckOutItems([FromBody] OrderItem[] orderItems)
+        {
+            if (orderItems == null || !orderItems.Any())
+            {
+                return BadRequest("No items found for checkout.");
+            }
+            bool orderProcessedSuccessfully = true;
+
+            if (orderProcessedSuccessfully)
+            {
+                return Ok(true);
+            }
+            else
+            {
+                return StatusCode(500, "Error occurred while processing the order.");
+            }
+        }
+
     }
 }

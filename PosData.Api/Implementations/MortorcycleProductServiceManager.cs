@@ -39,7 +39,8 @@ namespace PosData.Api.Implementations
                     Name = "125",
                     Price= 4000000,
                     Brand= brandList[1],
-                    Year = 2023
+                    Year = 2023,
+                    Color="Black"
                 },
                 new Motorcycle
                 {
